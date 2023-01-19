@@ -7,13 +7,11 @@ router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
   await Category.findAll({
-    attributes: ['id', 'category_name'],
-      include: [{
-        model: Product,
-        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
-      }]
+      include: [{model: Product }]
   }).then((categories) => {
   res.status(200).json(categories);
+  }).catch((err) => {
+    res.status(500).json(err);
   });
 });
 
@@ -21,11 +19,7 @@ router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   await Category.findByPk(req.params.id, {
-    attributes: ['id', 'category_name'],
-    include: [{
-      model: Product,
-      attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
-    }]
+    include: [{model: Product}]
   }).then((oneCategory) => {
     res.status(200).json(oneCategory)
   }).catch((err) => {
