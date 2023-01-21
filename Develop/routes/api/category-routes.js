@@ -10,9 +10,7 @@ router.get('/', async (req, res) => {
       include: [{model: Product }]
   }).then((categories) => {
   res.status(200).json(categories);
-  }).catch((err) => {
-    res.status(500).json(err);
-  });
+  }).catch((err)=> {res.status(400).json(err)});;
 });
 
 router.get('/:id', async (req, res) => {
@@ -22,19 +20,14 @@ router.get('/:id', async (req, res) => {
     include: [{model: Product}]
   }).then((oneCategory) => {
     res.status(200).json(oneCategory)
-  }).catch((err) => {
-    res.status(500).json(err);
-  });
+  }).catch((err)=> {res.status(400).json(err)});
 });
 
 router.post('/', async (req, res) => {
   // create a new category
   await Category.create(req.body)
   .then((newCat) => res.status(200).json(newCat))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-  })
+  .catch((err)=> {res.status(400).json(err)});
 });
 
 router.put('/:id', async (req, res) => {
@@ -45,7 +38,7 @@ router.put('/:id', async (req, res) => {
     },
   }).then ((cat) => Category.findByPk(req.params.id))
   .then((updateCat)=> {res.status(200).json(updateCat)})
-  .catch((err) => {res.json(err)})
+  .catch((err)=> {res.status(400).json(err)});
 });
 
 router.delete('/:id', async (req, res) => {
@@ -55,7 +48,7 @@ router.delete('/:id', async (req, res) => {
       id: req.params.id
     }
   }).then((deleteCat)=> {res.json(`The category was removed from the database`)})
-  .catch((err)=> {res.json(err)});
+  .catch((err)=> {res.status(400).json(err)});
 });
 
 module.exports = router;

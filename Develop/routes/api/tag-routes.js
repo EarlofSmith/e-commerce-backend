@@ -10,9 +10,7 @@ router.get('/', async (req, res) => {
     include: [{model: Product}]
   }).then((allTags) => {
     res.status(200).json(allTags)
-  }).catch((err) => {
-    res.status(500).json(err);
-  });
+  }).catch((err)=> {res.status(400).json(err)});
 });
 
 router.get('/:id', async (req, res) => {
@@ -22,9 +20,7 @@ router.get('/:id', async (req, res) => {
     include: [{model: Product}]
   }).then((oneTag) => {
     res.status(200).json(oneTag)
-  }).catch((err) => {
-    res.status(500).json(err);
-  });
+  }).catch((err)=> {res.status(400).json(err)});
 });
 
 router.post('/', async (req, res) => {
@@ -32,8 +28,7 @@ router.post('/', async (req, res) => {
   await Tag.create({
     tag_name: req.body.tag_name,
   }).then((tag) => { res.json(tag)
-  }).catch((err) => { res.json(err)
-  });
+  }).catch((err)=> {res.status(400).json(err)});
 });
 
 router.put('/:id', async (req, res) => {
@@ -45,7 +40,7 @@ router.put('/:id', async (req, res) => {
       id: req.params.id
     }
   }).then ((updateTag)=> {res.json(updateTag)})
-  .catch((err)=> {res.json(err)});
+  .catch((err)=> {res.status(400).json(err)});
 });
 
 router.delete('/:id', async (req, res) => {
@@ -55,7 +50,7 @@ router.delete('/:id', async (req, res) => {
       id: req.params.id
     }
   }).then((deleteTag)=> {res.json(`The Tag was removed from the database`)})
-  .catch((err)=> {res.json(err)});
+  .catch((err)=> {res.status(400).json(err)});
 });
 
 module.exports = router;
